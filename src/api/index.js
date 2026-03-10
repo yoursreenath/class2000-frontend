@@ -29,6 +29,7 @@ export const eventApi = {
   getUpcoming: ()   => api.get('/events/upcoming'),
   create:    (data) => api.post('/events', data),
   rsvp:      (id)   => api.put(`/events/${id}/rsvp`),
+  update:    (id, data) => api.put(`/events/${id}`, data),
   delete:    (id)   => api.delete(`/events/${id}`),
 }
 
@@ -45,6 +46,7 @@ export const discussionApi = {
 export const newsApi = {
   getAll:  ()     => api.get('/news'),
   create:  (data) => api.post('/news', data),
+  update:  (id, data) => api.put(`/news/${id}`, data),
   delete:  (id)   => api.delete(`/news/${id}`),
 }
 
@@ -60,3 +62,19 @@ export const uploadPhoto = async (file) => {
 }
 
 export default api
+
+export const teacherApi = {
+  getAll:  ()         => api.get('/teachers'),
+  getById: (id)       => api.get(`/teachers/${id}`),
+  search:  (q)        => api.get('/teachers/search', { params: { q } }),
+  create:  (data)     => api.post('/teachers', data),
+  update:  (id, data) => api.put(`/teachers/${id}`, data),
+  delete:  (id)       => api.delete(`/teachers/${id}`),
+}
+
+export const initiativeApi = {
+  getAll:  ()         => api.get('/initiatives'),
+  create:  (data)     => api.post('/initiatives', data),
+  update:  (id, data) => api.put(`/initiatives/${id}`, data),
+  delete:  (id)       => api.delete(`/initiatives/${id}`),
+}

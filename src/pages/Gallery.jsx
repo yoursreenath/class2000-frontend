@@ -1,201 +1,186 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, X, User, Upload, Image as ImageIcon, Loader2 } from 'lucide-react'
+import { Plus, X, User, Upload, Image as ImageIcon, Loader2, Trash2 } from 'lucide-react'
 import { photoApi, uploadPhoto } from '../api'
-
+import { useAuth } from '../context/AuthContext'
 
 export default function Gallery() {
-  const [photos, setPhotos] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { isAdmin } = useAuth()
+  const [photos, setPhotos]     = useState([])
+  const [loading, setLoading]   = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(null)
-  const [form, setForm] = useState({ title: '', description: '', uploadedBy: '', tags: '' })
-
-  // File upload state
+  const [form, setForm]         = useState({ title:'', description:'', uploadedBy:'', tags:'' })
   const [selectedFile, setSelectedFile] = useState(null)
-  const [previewUrl, setPreviewUrl] = useState(null)
-  const [uploading, setUploading] = useState(false)
-  const [uploadError, setUploadError] = useState('')
+  const [previewUrl, setPreviewUrl]     = useState(null)
+  const [uploading, setUploading]       = useState(false)
+  const [uploadError, setUploadError]   = useState('')
   const fileInputRef = useRef(null)
 
   const load = async () => {
     setLoading(true)
-    const res = await photoApi.getAll()
-    setPhotos(res.data)
+    try { const r = await photoApi.getAll(); setPhotos(r.data) }
+    catch { setPhotos([]) }
     setLoading(false)
   }
-
   useEffect(() => { load() }, [])
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      setUploadError('Please select a valid image file (JPG, PNG, GIF, WEBP).')
-      return
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      setUploadError('File size must be less than 10MB.')
-      return
-    }
-    setUploadError('')
-    setSelectedFile(file)
-    setPreviewUrl(URL.createObjectURL(file))
+  const handleFileChange = e => {
+    const f = e.target.files[0]; if (!f) return
+    if (!f.type.startsWith('image/')) { setUploadError('Please select an image file.'); return }
+    if (f.size > 10*1024*1024)        { setUploadError('Max size is 10MB.'); return }
+    setUploadError(''); setSelectedFile(f); setPreviewUrl(URL.createObjectURL(f))
   }
-
-  const handleDrop = (e) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      setUploadError('Please select a valid image file.')
-      return
-    }
-    setUploadError('')
-    setSelectedFile(file)
-    setPreviewUrl(URL.createObjectURL(file))
+  const resetForm = () => {
+    setShowForm(false); setForm({ title:'', description:'', uploadedBy:'', tags:'' })
+    setSelectedFile(null); setPreviewUrl(null); setUploadError('')
   }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    if (!selectedFile) {
-      setUploadError('Please select an image to upload.')
-      return
-    }
+    if (!selectedFile) { setUploadError('Please select a photo.'); return }
     setUploading(true)
-    setUploadError('')
     try {
       const imageUrl = await uploadPhoto(selectedFile)
       await photoApi.create({ ...form, imageUrl })
-      resetForm()
-      load()
-    } catch (err) {
-      setUploadError('Upload failed. Please try again.')
-    } finally {
-      setUploading(false)
-    }
+      resetForm(); load()
+    } catch { setUploadError('Upload failed. Please try again.') }
+    finally   { setUploading(false) }
   }
-
-  const resetForm = () => {
-    setShowForm(false)
-    setForm({ title: '', description: '', uploadedBy: '', tags: '' })
-    setSelectedFile(null)
-    setPreviewUrl(null)
-    setUploadError('')
+  const handleDelete = async (id, e) => {
+    e.stopPropagation()
+    if (!window.confirm('Delete this photo?')) return
+    try { await photoApi.delete(id); load() } catch {}
   }
 
   return (
     <div className="fade-in">
-      <div className="flex items-center justify-between mb-6">
+      <style>{`
+        .gallery-grid { columns:1; gap:14px; }
+        @media(min-width:500px){ .gallery-grid { columns:2; } }
+        @media(min-width:900px){ .gallery-grid { columns:3; } }
+        .gallery-item { break-inside:avoid; margin-bottom:14px; border-radius:4px; overflow:hidden;
+          border:1px solid #e2cfa0; cursor:pointer; position:relative;
+          box-shadow:0 2px 10px rgba(100,60,10,0.08); transition:transform 0.22s,box-shadow 0.22s; }
+        .gallery-item:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(100,60,10,0.18); }
+        .gallery-item img { width:100%; display:block; object-fit:cover; background:#f5e6c8; }
+        .gallery-caption { padding:12px 14px; background:#fffcf4; }
+        .gallery-caption h3 { font-family:'Libre Baskerville',serif;font-size:13.5px;font-weight:700;color:var(--ink);margin:0 0 4px; }
+        .gallery-tag { font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;background:#fef3c7;color:var(--amber-dark); }
+        /* admin delete overlay */
+        .gallery-del-btn {
+          position:absolute; top:8px; right:8px; z-index:10;
+          background:rgba(185,28,28,0.88); border:none; border-radius:4px;
+          padding:6px 10px; color:white; font-size:11px; font-weight:600;
+          cursor:pointer; display:flex; align-items:center; gap:4px;
+          opacity:0; transition:opacity 0.18s;
+        }
+        .gallery-item:hover .gallery-del-btn { opacity:1; }
+        /* upload form */
+        .gal-form-wrap { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:24px;margin-bottom:24px;box-shadow:0 2px 14px rgba(100,60,10,0.08);animation:slideDown 0.3s ease both; }
+        .drop-zone { border:2px dashed #d4b87a;border-radius:4px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#fdf8f0; }
+        .drop-zone:hover,.drop-zone.has { border-color:var(--amber);background:#fffbef; }
+        .form-label { font-size:11px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--sepia);display:block;margin-bottom:5px; }
+        /* lightbox */
+        .lightbox-overlay { position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.2s ease both; }
+        .lightbox-inner { position:relative;max-width:820px;width:100%; }
+        .lightbox-inner img { width:100%;border-radius:6px;object-fit:contain;max-height:72vh; }
+        .lightbox-info { margin-top:14px;color:white; }
+        .lightbox-close { position:absolute;top:-38px;right:0;background:rgba(255,255,255,0.12);border:none;border-radius:6px;padding:6px 12px;color:white;cursor:pointer;font-size:18px;line-height:1; }
+      `}</style>
+
+      <div className="page-header">
         <div>
-          <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--ink)' }}>Photo Gallery</h1>
-          <p style={{ color: 'var(--ink-muted)' }} className="mt-1">Memories we will never forget</p>
+          <h1 className="page-title">📸 Photo Gallery</h1>
+          <p className="page-subtitle">Memories captured in time — Class of 2000</p>
         </div>
-        <button className="btn-primary flex items-center gap-2" onClick={() => setShowForm(true)}>
-          <Plus size={16} /> Add Photo
-        </button>
+        {isAdmin && (
+          <button className="btn-primary" onClick={showForm ? resetForm : ()=>setShowForm(true)}>
+            {showForm ? <><X size={14}/> Cancel</> : <><Plus size={14}/> Upload Photo</>}
+          </button>
+        )}
       </div>
 
-      {showForm && (
-        <div className="card p-6 mb-6 relative">
-          <button className="absolute top-4 right-4" onClick={resetForm} style={{ color: 'var(--ink-muted)' }}>
-            <X size={18} />
-          </button>
-          <h3 className="font-display text-xl font-bold mb-5" style={{ color: 'var(--ink)' }}>Add a Memory</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            {/* Drop Zone */}
-            <div
-              className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
-              style={{ borderColor: previewUrl ? 'var(--amber)' : '#e8d9b5', background: previewUrl ? '#fffbeb' : '#fdf8f0' }}
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-            >
-              {previewUrl ? (
-                <div>
-                  <img src={previewUrl} alt="Preview" className="mx-auto rounded-lg object-contain" style={{ maxHeight: '220px', maxWidth: '100%' }} />
-                  <div className="mt-3 flex items-center justify-center gap-2 text-sm" style={{ color: 'var(--amber)' }}>
-                    <Upload size={14} /><span>Click or drop to replace image</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="py-6">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: '#fef3c7' }}>
-                    <ImageIcon size={26} style={{ color: 'var(--amber)' }} />
-                  </div>
-                  <p className="font-semibold mb-1" style={{ color: 'var(--ink)' }}>Click to choose a photo</p>
-                  <p className="text-sm" style={{ color: 'var(--ink-muted)' }}>or drag and drop here</p>
-                  <p className="text-xs mt-2" style={{ color: 'var(--ink-muted)' }}>JPG, PNG, GIF, WEBP — max 10MB</p>
-                </div>
-              )}
+      {/* Upload form — admin only */}
+      {isAdmin && showForm && (
+        <div className="gal-form-wrap">
+          <div style={{fontFamily:"'Libre Baskerville',serif",fontSize:'1.15rem',fontWeight:700,color:'var(--ink)',marginBottom:16}}>✦ Upload a Memory</div>
+          <form onSubmit={handleSubmit}>
+            <div className={`drop-zone${previewUrl?' has':''}`}
+              onClick={()=>fileInputRef.current?.click()}
+              onDragOver={e=>e.preventDefault()}
+              onDrop={e=>{e.preventDefault();handleFileChange({target:{files:e.dataTransfer.files}})}}>
+              {previewUrl
+                ? <><img src={previewUrl} style={{maxHeight:200,borderRadius:4,objectFit:'contain',marginBottom:8}}/><p style={{fontSize:12,color:'var(--ink-muted)'}}>Click to replace</p></>
+                : <><div style={{fontSize:40,marginBottom:10}}>🖼️</div><p style={{fontFamily:"'Libre Baskerville',serif",fontWeight:600,color:'var(--ink)',marginBottom:4}}>Click or drag & drop a photo</p><p style={{fontSize:12,color:'var(--ink-muted)'}}>JPG · PNG · GIF · max 10MB</p></>
+              }
             </div>
+            <input ref={fileInputRef} type="file" accept="image/*" style={{display:'none'}} onChange={handleFileChange}/>
+            {uploadError && <p style={{color:'#b91c1c',fontSize:12,marginTop:8}}>{uploadError}</p>}
 
-            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-
-            {uploadError && (
-              <p className="text-sm px-3 py-2 rounded-lg" style={{ color: '#dc2626', background: '#fef2f2' }}>{uploadError}</p>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input required className="input-field md:col-span-2" placeholder="Photo Title *" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
-              <input className="input-field" placeholder="Your Name" value={form.uploadedBy} onChange={e => setForm({ ...form, uploadedBy: e.target.value })} />
-              <input className="input-field" placeholder="Tags (e.g. sports, farewell)" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} />
-              <textarea className="input-field md:col-span-2 h-20 resize-none" placeholder="Description (optional)" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:16}}>
+              {[
+                {label:'Photo Title *', key:'title', full:true, required:true, placeholder:'e.g. Sports Day 1999'},
+                {label:'Your Name',     key:'uploadedBy', placeholder:'Who shared this?'},
+                {label:'Tags',          key:'tags', placeholder:'e.g. sports, class-photo'},
+                {label:'Description',   key:'description', full:true, area:true, placeholder:'Tell the story behind this photo…'},
+              ].map(({label,key,placeholder,required,full,area})=>(
+                <div key={key} style={full?{gridColumn:'1/-1'}:{}}>
+                  <label className="form-label">{label}</label>
+                  {area
+                    ? <textarea className="input-field" style={{height:68}} placeholder={placeholder} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/>
+                    : <input required={required} className="input-field" placeholder={placeholder} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/>
+                  }
+                </div>
+              ))}
             </div>
-
-            <div className="flex gap-3 pt-1">
-              <button type="submit" className="btn-primary flex items-center gap-2" disabled={uploading}>
-                {uploading ? <><Loader2 size={15} className="animate-spin" /> Uploading...</> : <><Upload size={15} /> Upload Photo</>}
+            <div style={{display:'flex',gap:10,marginTop:16}}>
+              <button type="submit" className="btn-primary" disabled={uploading}>
+                {uploading ? <><Loader2 size={14} style={{animation:'spin 1s linear infinite'}}/> Uploading…</> : <><Upload size={14}/> Upload Photo</>}
               </button>
-              <button type="button" className="btn-outline" onClick={resetForm} disabled={uploading}>Cancel</button>
+              <button type="button" className="btn-outline" onClick={resetForm}>Cancel</button>
             </div>
           </form>
         </div>
       )}
 
-      {loading ? (
-        <div className="text-center py-16" style={{ color: 'var(--ink-muted)' }}>Loading gallery...</div>
-      ) : photos.length === 0 ? (
-        <div className="text-center py-20" style={{ color: 'var(--ink-muted)' }}>
-          <ImageIcon size={48} className="mx-auto mb-3 opacity-30" />
-          <p className="font-display text-lg">No photos yet.</p>
-          <p className="text-sm mt-1">Be the first to share a memory!</p>
-        </div>
-      ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-          {photos.map(photo => (
-            <div key={photo.id} className="card overflow-hidden break-inside-avoid cursor-pointer" onClick={() => setSelected(photo)}>
-              <img src={photo.imageUrl} alt={photo.title} className="w-full object-cover" style={{ maxHeight: '280px' }} onError={e => { e.target.style.display = 'none' }} />
-              <div className="p-4">
-                <h3 className="font-display text-base font-bold" style={{ color: 'var(--ink)' }}>{photo.title}</h3>
-                {photo.description && <p className="text-xs mt-1" style={{ color: 'var(--ink-muted)' }}>{photo.description}</p>}
-                {photo.tags && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {photo.tags.split(',').map(t => t.trim()).filter(Boolean).map(tag => (
-                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full" style={{ background: '#fef3c7', color: 'var(--amber-dark)' }}>#{tag}</span>
-                    ))}
+      {loading
+        ? <div className="empty-state"><div className="empty-icon">⏳</div><p>Loading gallery…</p></div>
+        : photos.length === 0
+          ? <div className="empty-state"><div className="empty-icon">📷</div><p>No photos yet.</p>{isAdmin && <small>Upload the first memory!</small>}</div>
+          : <div className="gallery-grid stagger">
+              {photos.map(photo => (
+                <div key={photo.id} className="gallery-item" onClick={()=>setSelected(photo)}>
+                  {isAdmin && (
+                    <button className="gallery-del-btn" onClick={e=>handleDelete(photo.id,e)}>
+                      <Trash2 size={11}/> Delete
+                    </button>
+                  )}
+                  <img src={photo.imageUrl} alt={photo.title} style={{maxHeight:280}} onError={e=>e.target.style.display='none'}/>
+                  <div className="gallery-caption">
+                    <h3>{photo.title}</h3>
+                    {photo.tags && (
+                      <div style={{display:'flex',flexWrap:'wrap',gap:4,marginTop:5}}>
+                        {photo.tags.split(',').map(t=>t.trim()).filter(Boolean).map(tag=>(
+                          <span key={tag} className="gallery-tag">#{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                    {photo.uploadedBy && <p style={{fontSize:11,color:'var(--ink-muted)',marginTop:5,display:'flex',alignItems:'center',gap:4}}><User size={10}/>{photo.uploadedBy}</p>}
                   </div>
-                )}
-                {photo.uploadedBy && (
-                  <p className="flex items-center gap-1 text-xs mt-2" style={{ color: 'var(--amber)' }}>
-                    <User size={11} /> {photo.uploadedBy}
-                  </p>
-                )}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+      }
 
+      {/* Lightbox */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={() => setSelected(null)}>
-          <div className="relative max-w-3xl w-full" onClick={e => e.stopPropagation()}>
-            <button className="absolute -top-10 right-0 text-white opacity-80 hover:opacity-100" onClick={() => setSelected(null)}><X size={26} /></button>
-            <img src={selected.imageUrl} alt={selected.title} className="w-full rounded-xl object-contain" style={{ maxHeight: '70vh' }} />
-            <div className="mt-3 text-white">
-              <h3 className="font-display text-xl">{selected.title}</h3>
-              {selected.description && <p className="text-sm opacity-70 mt-1">{selected.description}</p>}
-              {selected.uploadedBy && <p className="flex items-center gap-1 text-sm mt-2 opacity-60"><User size={13} /> {selected.uploadedBy}</p>}
+        <div className="lightbox-overlay" onClick={()=>setSelected(null)}>
+          <div className="lightbox-inner" onClick={e=>e.stopPropagation()}>
+            <button className="lightbox-close" onClick={()=>setSelected(null)}>✕</button>
+            <img src={selected.imageUrl} alt={selected.title}/>
+            <div className="lightbox-info">
+              <h3 style={{fontFamily:"'Libre Baskerville',serif",fontSize:18,fontWeight:700,margin:'0 0 6px'}}>{selected.title}</h3>
+              {selected.description && <p style={{fontSize:13,opacity:0.75,margin:0}}>{selected.description}</p>}
+              {selected.uploadedBy  && <p style={{fontSize:12,opacity:0.55,marginTop:6,display:'flex',alignItems:'center',gap:4}}><User size={12}/>{selected.uploadedBy}</p>}
             </div>
           </div>
         </div>
