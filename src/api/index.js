@@ -58,7 +58,10 @@ export const uploadPhoto = async (file) => {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
   // Return full absolute URL so <img src> works from any host
-  return `${BASE_URL}${res.data.url}`
+  const url = res.data.url
+  // Cloudinary returns an absolute https:// URL — use it directly.
+  // Local dev returns a relative /api/upload/files/... — prepend backend base.
+  return url.startsWith('http') ? url : `${BASE_URL}${url}`
 }
 
 export default api
