@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import groupPhoto from '../assets/group-photo.jpg'
+import groupPhoto from '../assets/group-photo.JPG'
 
 const memories = [
   'Remember rushing to grab the last bench…',
