@@ -1,37 +1,46 @@
-import { useEffect, useState } from 'react'
-import groupPhoto from '../assets/group-photo.jpg'
+import { useEffect, useState } from "react";
+import groupPhoto from "../assets/group-photo.jpg";
 
 const memories = [
-  'Remember rushing to grab the last bench…',
-  'Sharing answers in whispers before the teacher noticed…',
-  'Swapping tiffin boxes at the lunch bell…',
-  'Hiding report cards from our parents…',
-  'Counting down the days to summer holidays…',
-  'Writing nonsense in each other\'s slam books…',
-  'The Annual Day rehearsals that went on forever…',
-]
+  "Remember rushing to grab the last bench…",
+  "Sharing answers in whispers before the teacher noticed…",
+  "Swapping tiffin boxes at the lunch bell…",
+  "Hiding report cards from our parents…",
+  "Counting down the days to summer holidays…",
+  "Writing nonsense in each other's slam books…",
+  "The Annual Day rehearsals that went on forever…",
+];
 
 const floaters = [
-  { text: '📚 Last Bench',    top: '11%',  left: '3%',   delay: '0s',    dur: '7s'   },
-  { text: '🍱 Tiffin Box',    top: '18%',  right: '4%',  delay: '1.4s',  dur: '8.5s' },
-  { text: '✏️ Slam Book',     top: '62%',  left: '2%',   delay: '0.8s',  dur: '9s'   },
-  { text: '🏆 Champions',     top: '70%',  right: '3%',  delay: '2.2s',  dur: '7.5s' },
-  { text: '🎭 Annual Day',    top: '4%',   left: '52%',  delay: '1.9s',  dur: '8s'   },
-  { text: '🔔 School Bell',   top: '82%',  left: '42%',  delay: '0.5s',  dur: '7s'   },
-  { text: '📝 Board Exams',   top: '38%',  right: '2%',  delay: '3s',    dur: '9.5s' },
-  { text: '🎒 School Bag',    top: '48%',  left: '1%',   delay: '1.1s',  dur: '8s'   },
-]
+  { text: "📚 Last Bench", top: "11%", left: "3%", delay: "0s", dur: "7s" },
+  {
+    text: "🍱 Tiffin Box",
+    top: "18%",
+    right: "4%",
+    delay: "1.4s",
+    dur: "8.5s",
+  },
+  { text: "✏️ Slam Book", top: "62%", left: "2%", delay: "0.8s", dur: "9s" },
+  { text: "🏆 Champions", top: "70%", right: "3%", delay: "2.2s", dur: "7.5s" },
+  { text: "🎭 Annual Day", top: "4%", left: "52%", delay: "1.9s", dur: "8s" },
+  { text: "🔔 School Bell", top: "82%", left: "42%", delay: "0.5s", dur: "7s" },
+  { text: "📝 Board Exams", top: "38%", right: "2%", delay: "3s", dur: "9.5s" },
+  { text: "🎒 School Bag", top: "48%", left: "1%", delay: "1.1s", dur: "8s" },
+];
 
 export default function Home() {
-  const [tick, setTick]     = useState(0)
-  const [imgLoaded, setImgLoaded] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [tick, setTick] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const t = setInterval(() => setTick(p => (p + 1) % memories.length), 3500)
-    setTimeout(() => setVisible(true), 80)
-    return () => clearInterval(t)
-  }, [])
+    const t = setInterval(
+      () => setTick((p) => (p + 1) % memories.length),
+      3500,
+    );
+    setTimeout(() => setVisible(true), 80);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <>
@@ -516,21 +525,27 @@ export default function Home() {
       `}</style>
 
       <div className="hm">
-
         {/* Floating ambient tags */}
-        {floaters.map(f => (
-          <div key={f.text} className="floater" style={{
-            top: f.top, left: f.left, right: f.right,
-            '--d': f.dur, '--dl': f.delay,
-          }}>{f.text}</div>
+        {floaters.map((f) => (
+          <div
+            key={f.text}
+            className="floater"
+            style={{
+              top: f.top,
+              left: f.left,
+              right: f.right,
+              "--d": f.dur,
+              "--dl": f.delay,
+            }}
+          >
+            {f.text}
+          </div>
         ))}
 
         {/* ── HERO ── */}
-        <div className={`hm-hero ${visible ? 'visible' : ''}`}>
-
+        <div className={`hm-hero ${visible ? "visible" : ""}`}>
           {/* LEFT */}
           <div className="hm-left">
-
             {/* Live badge */}
             <div className="live-badge">
               <div className="live-dot" />
@@ -541,62 +556,77 @@ export default function Home() {
 
             {/* Headline */}
             <h1 className="hm-h1">
-              Twenty-five years later,<br />
+              Twenty-five years later,
+              <br />
               <span className="italic-gold">we're all back home.</span>
             </h1>
 
             {/* Rotating ticker */}
             <div className="ticker-wrap">
-              <div key={tick} className="ticker-line">{memories[tick]}</div>
+              <div key={tick} className="ticker-line">
+                {memories[tick]}
+              </div>
             </div>
 
             {/* Story */}
             <div className="hm-story">
-              Those four walls held our biggest secrets, our loudest laughs, and our
-              first real friendships. We shared benches, borrowed pens, swapped tiffins,
-              and made memories that no textbook could ever contain.
-              <br /><br />
-              Twenty-five years on — life has taken us across cities, careers and
-              continents. But here, in this little corner of the internet,
-              <strong style={{ color: '#7a3800' }}> we are all still seventeen.</strong>
+              Those four walls held our biggest secrets, our loudest laughs, and
+              our first real friendships. We shared benches, borrowed pens,
+              swapped tiffins, and made memories that no textbook could ever
+              contain.
+              <br />
+              <br />
+              Twenty-five years on — life has taken us across cities, careers
+              and continents. But here, in this little corner of the internet,
+              <strong style={{ color: "#7a3800" }}>
+                {" "}
+                we are all still seventeen.
+              </strong>
             </div>
-
-
-
           </div>
 
           {/* RIGHT — Photo */}
           <div className="hm-photo">
-
             {/* Sticky note */}
             <div className="sticky-note">
-              Our Class 📸<br />
-              <span style={{ fontSize: '10.5px', opacity: .70 }}>Batch '99–'00</span>
+              Our Class 📸
+              <br />
+              <span style={{ fontSize: "10.5px", opacity: 0.7 }}>
+                Batch '99–'00
+              </span>
             </div>
 
             {/* Ticket */}
             <div className="ticket-stub">
-              🎓 Passing<br />Year 2000
+              🎓 Passing
+              <br />
+              Year 2000
             </div>
 
             <div className="photo-frame">
-              <div className="fc fc-tl" /><div className="fc fc-tr" />
-              <div className="fc fc-bl" /><div className="fc fc-br" />
+              <div className="fc fc-tl" />
+              <div className="fc fc-tr" />
+              <div className="fc fc-bl" />
+              <div className="fc fc-br" />
 
               <div className="photo-window">
                 {!imgLoaded && (
-                  <div style={{
-                    position: 'absolute', inset: 0,
-                    background: 'linear-gradient(90deg,#f5e6c8 25%,#fef3c7 50%,#f5e6c8 75%)',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 1.4s infinite',
-                  }} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(90deg,#f5e6c8 25%,#fef3c7 50%,#f5e6c8 75%)",
+                      backgroundSize: "200% 100%",
+                      animation: "shimmer 1.4s infinite",
+                    }}
+                  />
                 )}
                 <img
                   src={groupPhoto}
                   alt="Class of 2000 Group Photo"
                   onLoad={() => setImgLoaded(true)}
-                  style={{ display: imgLoaded ? 'block' : 'none' }}
+                  style={{ display: imgLoaded ? "block" : "none" }}
                 />
               </div>
 
@@ -611,7 +641,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -619,13 +648,26 @@ export default function Home() {
         <div className="hm-strip">
           <span className="strip-label">Our memories</span>
           <div className="strip-chips">
-            {['📚 Last Bench Gang','🍱 Tiffin Swaps','🎭 Annual Day','🏃 Sports Day','✏️ Slam Books','🔬 Science Fair','🤝 Forever Friends','📝 Board Exams','🎒 School Bag','🔔 School Bell','💌 Farewell Notes'].map(tag => (
-              <span key={tag} className="s-chip">{tag}</span>
+            {[
+              "📚 Last Bench Gang",
+              "🍱 Tiffin Swaps",
+              "🎭 Annual Day",
+              "🏃 Sports Day",
+              "✏️ Slam Books",
+              "🔬 Science Fair",
+              "🤝 Forever Friends",
+              "📝 Board Exams",
+              "🎒 School Bag",
+              "🔔 School Bell",
+              "💌 Farewell Notes",
+            ].map((tag) => (
+              <span key={tag} className="s-chip">
+                {tag}
+              </span>
             ))}
           </div>
         </div>
-
       </div>
     </>
-  )
+  );
 }

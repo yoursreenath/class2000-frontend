@@ -81,3 +81,14 @@ export const initiativeApi = {
   update:  (id, data) => api.put(`/initiatives/${id}`, data),
   delete:  (id)       => api.delete(`/initiatives/${id}`),
 }
+
+export const getTogetherApi = {
+  getAll:  ()         => api.get('/get-togethers'),
+  create:  (data)     => api.post('/get-togethers', data),
+  update:  (id, data) => api.put(`/get-togethers/${id}`, data),
+  delete:  (id)       => api.delete(`/get-togethers/${id}`),
+}
+
+export const getTogetherPhotosApi = {
+  getByAlbum: (gtId)  => api.get(`/photos/get-together/${gtId}`),
+}
