@@ -110,21 +110,21 @@ export default function Discussion() {
   return (
     <div className="fade-in">
       <style>{`
-        .disc-card { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:22px;box-shadow:0 2px 10px rgba(100,60,10,0.08);position:relative;overflow:hidden;transition:box-shadow 0.2s; }
+        .disc-card { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.12);position:relative;overflow:hidden;transition:box-shadow 0.2s; }
         .disc-card:hover { box-shadow:0 6px 22px rgba(100,60,10,0.14); }
         .disc-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),transparent); }
         .disc-avatar { width:40px;height:40px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--amber-dark),var(--amber));display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-weight:700;font-size:15px;color:white;box-shadow:0 2px 8px rgba(124,61,10,0.30); }
-        .disc-title { font-family:'Libre Baskerville',serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 10px; }
-        .disc-body  { font-size:13.5px;line-height:1.80;color:var(--ink);padding-left:12px;border-left:2px solid var(--parch);font-style:italic;margin-bottom:14px; }
+        .disc-title { font-family:'Libre Baskerville',serif;font-size:16px;font-weight:700;color:#0f172a;margin:0 0 10px; }
+        .disc-body  { font-size:13.5px;line-height:1.80;color:#0f172a;padding-left:12px;border-left:2px solid var(--parch);font-style:italic;margin-bottom:14px; }
         .disc-actions { display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--parch);align-items:center; }
-        .disc-btn { display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--ink-muted);background:none;border:none;cursor:pointer;padding:5px 10px;border-radius:3px;transition:background 0.18s,color 0.18s; }
-        .disc-btn:hover { background:var(--parch);color:var(--ink); }
+        .disc-btn { display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:#475569;background:none;border:none;cursor:pointer;padding:5px 10px;border-radius:3px;transition:background 0.18s,color 0.18s; }
+        .disc-btn:hover { background:#eff6ff;color:#0f172a; }
         .disc-btn.liked { color:var(--red-mark); }
         .disc-comments { margin-top:14px;padding-top:14px;border-top:1px dashed #e2cfa0;display:flex;flex-direction:column;gap:10px; }
-        .disc-comment { display:flex;gap:10px;background:#fdf8f0;border-radius:3px;padding:10px 12px; }
+        .disc-comment { display:flex;gap:10px;background:#f8fafc;border-radius:3px;padding:10px 12px; }
         .disc-comment-avatar { width:28px;height:28px;border-radius:50%;flex-shrink:0;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white; }
         .disc-reply-form { display:flex;gap:8px;margin-top:10px;align-items:center; }
-        .disc-form { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:22px;margin-bottom:22px;box-shadow:0 2px 14px rgba(100,60,10,0.08);animation:slideDown 0.3s ease both; }
+        .disc-form { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:22px;margin-bottom:22px;box-shadow:0 4px 16px rgba(0,0,0,0.14);animation:slideDown 0.3s ease both; }
         .form-label { font-size:11px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--sepia);display:block;margin-bottom:5px; }
       `}</style>
 

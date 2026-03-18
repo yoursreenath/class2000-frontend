@@ -279,42 +279,42 @@ export default function Gallery() {
         @media(min-width:500px){ .gallery-grid { columns:2; } }
         @media(min-width:900px){ .gallery-grid { columns:3; } }
         .gallery-item { break-inside:avoid; margin-bottom:14px; border-radius:4px; overflow:hidden;
-          border:1px solid #e2cfa0; cursor:pointer; position:relative;
-          box-shadow:0 2px 10px rgba(100,60,10,0.08); transition:transform 0.22s,box-shadow 0.22s; }
+          border:1px solid rgba(148,197,255,0.20); cursor:pointer; position:relative;
+          box-shadow:0 2px 12px rgba(0,0,0,0.12); transition:transform 0.22s,box-shadow 0.22s; }
         .gallery-item:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(100,60,10,0.18); }
         .gallery-item img { width:100%; display:block; object-fit:cover; background:#f5e6c8; }
-        .gallery-caption { padding:12px 14px; background:#fffcf4; }
-        .gallery-caption h3 { font-family:'Libre Baskerville',serif;font-size:13.5px;font-weight:700;color:var(--ink);margin:0 0 4px; }
-        .gallery-tag { font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;background:#fef3c7;color:var(--amber-dark); }
+        .gallery-caption { padding:12px 14px; background:#ffffff; }
+        .gallery-caption h3 { font-family:'Libre Baskerville',serif;font-size:13.5px;font-weight:700;color:#0f172a;margin:0 0 4px; }
+        .gallery-tag { font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;background:#eff6ff;color:#1d4ed8; }
         .gallery-del-btn { position:absolute;top:8px;right:8px;z-index:10;background:rgba(185,28,28,0.88);border:none;border-radius:4px;padding:6px 10px;color:white;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;opacity:0;transition:opacity 0.18s; }
         .gallery-item:hover .gallery-del-btn { opacity:1; }
 
         /* Album cards */
-        .album-card { background:#fffcf4;border:1px solid #e2cfa0;border-radius:6px;overflow:hidden;
+        .album-card { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:6px;overflow:hidden;
           box-shadow:0 3px 14px rgba(100,60,10,0.10);transition:transform 0.22s,box-shadow 0.22s;position:relative; }
         .album-card:hover { transform:translateY(-4px);box-shadow:0 12px 32px rgba(100,60,10,0.18); }
         .album-cover { width:100%;height:200px;object-fit:cover;display:block;background:linear-gradient(135deg,var(--parch),#e8d5a0); }
         .album-cover-placeholder { width:100%;height:200px;background:linear-gradient(135deg,#f5e9cc,#e8d5a0);display:flex;align-items:center;justify-content:center;font-size:48px; }
         .album-year-badge { position:absolute;top:12px;left:12px;background:var(--ink);color:var(--amber-light);font-family:'Libre Baskerville',serif;font-size:12px;font-weight:700;padding:4px 12px;border-radius:2px;letter-spacing:0.08em; }
         .album-body { padding:18px; }
-        .album-title { font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;color:var(--ink);margin:0 0 6px; }
-        .album-desc  { font-size:13px;color:var(--ink-muted);line-height:1.65;margin:0 0 12px; }
-        .album-meta  { display:flex;align-items:center;gap:12px;font-size:11.5px;color:var(--ink-muted);margin-bottom:14px; }
+        .album-title { font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;color:#0f172a;margin:0 0 6px; }
+        .album-desc  { font-size:13px;color:#475569;line-height:1.65;margin:0 0 12px; }
+        .album-meta  { display:flex;align-items:center;gap:12px;font-size:11.5px;color:#475569;margin-bottom:14px; }
         .album-more-btn { display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:3px;background:var(--ink);color:var(--amber-light);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;transition:all 0.18s; }
         .album-more-btn:hover { background:#2c1a08; }
         .album-actions { display:flex;gap:6px;margin-top:10px; }
-        .btn-edit { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #d4b87a;background:#fef9f0;color:var(--amber-dark);font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
-        .btn-edit:hover { background:var(--parch); }
+        .btn-edit { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #93c5fd;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
+        .btn-edit:hover { background:#eff6ff; }
         .btn-del  { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #fca5a5;background:#fef2f2;color:#b91c1c;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
         .btn-del:hover  { background:#fee2e2; }
 
         /* Forms */
-        .gal-form-wrap { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:24px;margin-bottom:24px;box-shadow:0 2px 14px rgba(100,60,10,0.08);animation:slideDown 0.3s ease both; }
-        .drop-zone { border:2px dashed #d4b87a;border-radius:4px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#fdf8f0; }
-        .drop-zone:hover,.drop-zone.has { border-color:var(--amber);background:#fffbef; }
+        .gal-form-wrap { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:24px;margin-bottom:24px;box-shadow:0 4px 16px rgba(0,0,0,0.14);animation:slideDown 0.3s ease both; }
+        .drop-zone { border:2px dashed #93c5fd;border-radius:4px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc; }
+        .drop-zone:hover,.drop-zone.has { border-color:#3b82f6;background:#fffbef; }
         .form-label { font-size:11px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--sepia);display:block;margin-bottom:5px; }
         .section-divider { font-family:'Libre Baskerville',serif;font-style:italic;font-size:14px;color:var(--sepia);margin:32px 0 16px;display:flex;align-items:center;gap:12px; }
-        .section-divider::after { content:'';flex:1;height:1px;background:var(--parch); }
+        .section-divider::after { content:'';flex:1;height:1px;background:#eff6ff; }
 
         /* Lightbox */
         .lightbox-overlay { position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.2s ease both; }

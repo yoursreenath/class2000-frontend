@@ -84,12 +84,12 @@ export default function GivingBack() {
         .btn-gb-edit:hover { background:rgba(255,255,255,0.22); }
         .btn-gb-del  { display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:3px;border:1.5px solid rgba(239,68,68,0.50);background:rgba(239,68,68,0.18);color:#fca5a5;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
         .btn-gb-del:hover { background:rgba(239,68,68,0.30); }
-        .gb-form { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:24px;margin-bottom:24px;box-shadow:0 2px 14px rgba(100,60,10,0.08);animation:slideDown 0.3s ease both; }
+        .gb-form { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:24px;margin-bottom:24px;box-shadow:0 4px 16px rgba(0,0,0,0.14);animation:slideDown 0.3s ease both; }
         .form-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
         @media(max-width:600px){ .form-grid{grid-template-columns:1fr;} }
         .form-label { font-size:11px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--sepia);display:block;margin-bottom:5px; }
-        .photo-drop { border:2px dashed #d4b87a;border-radius:4px;padding:18px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#fdf8f0; }
-        .photo-drop:hover,.photo-drop.has { border-color:var(--amber);background:#fffbef; }
+        .photo-drop { border:2px dashed #93c5fd;border-radius:4px;padding:18px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc; }
+        .photo-drop:hover,.photo-drop.has { border-color:#3b82f6;background:#fffbef; }
       `}</style>
 
       <div className="page-header">

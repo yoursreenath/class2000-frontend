@@ -56,22 +56,22 @@ export default function NewsPage() {
   return (
     <div className="fade-in">
       <style>{`
-        .news-card { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:22px;box-shadow:0 2px 10px rgba(100,60,10,0.08);transition:transform 0.22s,box-shadow 0.22s;position:relative;overflow:hidden; }
+        .news-card { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:transform 0.22s,box-shadow 0.22s;position:relative;overflow:hidden; }
         .news-card:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(100,60,10,0.14); }
         .news-cat-stripe { position:absolute;top:0;left:0;bottom:0;width:4px; }
-        .news-headline { font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;color:var(--ink);margin:0 0 10px;line-height:1.35; }
-        .news-body   { font-size:13.5px;line-height:1.82;color:var(--ink); }
-        .news-footer { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--parch);font-size:11.5px;color:var(--ink-muted); }
+        .news-headline { font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;color:#0f172a;margin:0 0 10px;line-height:1.35; }
+        .news-body   { font-size:13.5px;line-height:1.82;color:#0f172a; }
+        .news-footer { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--parch);font-size:11.5px;color:#475569; }
         .filter-bar  { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px; }
-        .filter-chip { font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:3px;border:1.5px solid #d4b87a;background:#fffcf4;color:var(--ink-muted);cursor:pointer;transition:all 0.18s; }
-        .filter-chip:hover  { border-color:var(--amber);color:var(--amber-dark); }
-        .filter-chip.active { background:var(--ink);color:var(--amber-light);border-color:var(--ink); }
+        .filter-chip { font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:3px;border:1.5px solid #93c5fd;background:#ffffff;color:#475569;cursor:pointer;transition:all 0.18s; }
+        .filter-chip:hover  { border-color:#3b82f6;color:#1d4ed8; }
+        .filter-chip.active { background:var(--ink);color:var(--amber-light);border-color:#0f172a; }
         .card-actions { display:flex;gap:6px; }
-        .btn-edit { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #d4b87a;background:#fef9f0;color:var(--amber-dark);font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
-        .btn-edit:hover { background:var(--parch); }
+        .btn-edit { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #93c5fd;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
+        .btn-edit:hover { background:#eff6ff; }
         .btn-del  { display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:3px;border:1.5px solid #fca5a5;background:#fef2f2;color:#b91c1c;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s; }
         .btn-del:hover { background:#fee2e2; }
-        .news-form { background:#fffcf4;border:1px solid #e2cfa0;border-radius:4px;padding:22px;margin-bottom:22px;box-shadow:0 2px 14px rgba(100,60,10,0.08);animation:slideDown 0.3s ease both; }
+        .news-form { background:#ffffff;border:1px solid rgba(148,197,255,0.20);border-radius:4px;padding:22px;margin-bottom:22px;box-shadow:0 4px 16px rgba(0,0,0,0.14);animation:slideDown 0.3s ease both; }
         .form-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px; }
         @media(max-width:600px){ .form-grid-2{grid-template-columns:1fr;} }
         .form-label { font-size:11px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--sepia);display:block;margin-bottom:5px; }

@@ -1,673 +1,487 @@
-import { useEffect, useState } from "react";
-import groupPhoto from "../assets/group-photo.jpg";
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import groupPhoto from '../assets/group-photo.jpg'
 
 const memories = [
-  "Remember rushing to grab the last bench…",
-  "Sharing answers in whispers before the teacher noticed…",
-  "Swapping tiffin boxes at the lunch bell…",
-  "Hiding report cards from our parents…",
-  "Counting down the days to summer holidays…",
-  "Writing nonsense in each other's slam books…",
-  "The Annual Day rehearsals that went on forever…",
-];
+  'Hiding report cards from our parents…',
+  'Sharing answers in whispers before the teacher noticed…',
+  'Swapping tiffin boxes at the lunch bell…',
+  'Racing to grab the last bench every morning…',
+  'Counting down the days to summer holidays…',
+  'Writing nonsense in each other\'s slam books…',
+  'The Annual Day rehearsals that went on forever…',
+]
 
-const floaters = [
-  { text: "📚 Last Bench", top: "11%", left: "3%", delay: "0s", dur: "7s" },
-  {
-    text: "🍱 Tiffin Box",
-    top: "18%",
-    right: "4%",
-    delay: "1.4s",
-    dur: "8.5s",
-  },
-  { text: "✏️ Slam Book", top: "62%", left: "2%", delay: "0.8s", dur: "9s" },
-  { text: "🏆 Champions", top: "70%", right: "3%", delay: "2.2s", dur: "7.5s" },
-  { text: "🎭 Annual Day", top: "4%", left: "52%", delay: "1.9s", dur: "8s" },
-  { text: "🔔 School Bell", top: "82%", left: "42%", delay: "0.5s", dur: "7s" },
-  { text: "📝 Board Exams", top: "38%", right: "2%", delay: "3s", dur: "9.5s" },
-  { text: "🎒 School Bag", top: "48%", left: "1%", delay: "1.1s", dur: "8s" },
-];
+const highlights = [
+  { icon: '👥', number: '4', label: 'Get-Togethers', sub: 'since passing out' },
+  { icon: '🎓', number: '16', label: 'Teachers', sub: 'honoured by us' },
+  { icon: '🏫', number: '25', label: 'Years', sub: 'of friendship' },
+  { icon: '❤️', number: '1', label: 'School', sub: 'ZP High School, KV Palli' },
+]
+
+const moments = [
+  { emoji: '📚', text: 'Last Bench Gang' },
+  { emoji: '🍱', text: 'Tiffin Swaps' },
+  { emoji: '🎭', text: 'Annual Day' },
+  { emoji: '🏃', text: 'Sports Day' },
+  { emoji: '✏️', text: 'Slam Books' },
+  { emoji: '🔬', text: 'Science Fair' },
+  { emoji: '🤝', text: 'Forever Friends' },
+  { emoji: '📝', text: 'Board Exams' },
+  { emoji: '🔔', text: 'School Bell' },
+  { emoji: '🎒', text: 'School Bag' },
+  { emoji: '💌', text: 'Farewell Notes' },
+]
 
 export default function Home() {
-  const [tick, setTick] = useState(0);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [tick, setTick] = useState(0)
+  const [imgLoaded, setImgLoaded] = useState(false)
 
   useEffect(() => {
-    const t = setInterval(
-      () => setTick((p) => (p + 1) % memories.length),
-      3500,
-    );
-    setTimeout(() => setVisible(true), 80);
-    return () => clearInterval(t);
-  }, []);
+    const t = setInterval(() => setTick(p => (p + 1) % memories.length), 3500)
+    return () => clearInterval(t)
+  }, [])
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&display=swap');
 
-        /* ── KEYFRAMES ── */
-        @keyframes shimmer     { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-        @keyframes floatDrift  { 0%,100%{transform:translateY(0) rotate(-1deg);opacity:.50} 50%{transform:translateY(-16px) rotate(1.5deg);opacity:.80} }
-        @keyframes fadeUp      { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes fadeIn      { from{opacity:0} to{opacity:1} }
-        @keyframes typeSlide   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes underlineIn { from{transform:scaleX(0)} to{transform:scaleX(1)} }
-        @keyframes countPop    { 0%{transform:scale(.5);opacity:0} 70%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
-        @keyframes shimmerBtn  { 0%{left:-100%} 100%{left:160%} }
-        @keyframes glowRing    { 0%,100%{box-shadow:0 0 0 0 rgba(240,192,96,.0)} 50%{box-shadow:0 0 0 6px rgba(240,192,96,.18)} }
-        @keyframes framePulse  { 0%,100%{box-shadow:0 8px 48px rgba(44,26,8,.28),0 0 0 6px #fffdf5,0 0 0 8px #e8c97a,0 0 0 10px rgba(217,119,6,.15)} 50%{box-shadow:0 12px 60px rgba(44,26,8,.36),0 0 0 6px #fffdf5,0 0 0 8px #f0c060,0 0 0 12px rgba(240,192,96,.22)} }
-        @keyframes noteWiggle  { 0%,100%{transform:rotate(5deg)} 50%{transform:rotate(7deg)} }
-        @keyframes stubWiggle  { 0%,100%{transform:rotate(-7deg)} 50%{transform:rotate(-5deg)} }
+        @keyframes fadeUp   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+        @keyframes tickIn   { from{opacity:0.3;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes shimmer  { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.5} }
+        @keyframes underline{ from{transform:scaleX(0)} to{transform:scaleX(1)} }
+        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
-        /* ── ROOT ── */
+        /* ── PAGE WRAPPER ── */
         .hm {
-          min-height: calc(100vh - 110px);
-          background: #fdf6e9;
-          background-image:
-            radial-gradient(ellipse 90% 55% at 50% -5%, rgba(240,192,96,.12) 0%, transparent 65%),
-            radial-gradient(ellipse 40% 40% at 95% 95%, rgba(139,90,43,.07) 0%, transparent 60%),
-            url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8a96e' fill-opacity='0.04'%3E%3Cpath d='M26 1l1 24H1V25h26V1zm0 26v24H25V27H1v-1h25zm1 0h24v1H27zm0-1V1h1v25h24v1H27z'/%3E%3C/g%3E%3C/svg%3E");
+          background: #ffffff;
           font-family: 'DM Sans', sans-serif;
-          position: relative;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
+          min-height: calc(100vh - 110px);
+          margin: 0;
+          padding: 0;
         }
 
-        /* floaters */
-        .floater {
-          position: absolute;
-          font-family: 'Caveat', cursive;
-          font-size: 12.5px;
-          color: #7a5428;
-          background: rgba(255,248,225,.75);
-          border: 1px dashed rgba(200,165,100,.55);
-          border-radius: 999px;
-          padding: 5px 15px;
-          pointer-events: none;
-          backdrop-filter: blur(3px);
-          white-space: nowrap;
-          animation: floatDrift var(--d) ease-in-out var(--dl) infinite;
-        }
-
-        /* ── HERO GRID ── */
+        /* ── HERO SECTION ── */
         .hm-hero {
           display: grid;
-          grid-template-columns: 1fr 430px;
-          gap: 44px;
-          padding: 40px 32px 28px;
-          flex: 1;
-          align-items: start;
-          opacity: 0;
-          transition: opacity .5s ease;
+          grid-template-columns: 42% 58%;
+          gap: 0;
+          align-items: stretch;
+          height: 420px;
         }
-        .hm-hero.visible { opacity: 1; }
 
-        /* ── LEFT ── */
+        /* LEFT — content */
         .hm-left {
+          padding: 20px 40px 24px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
-          animation: fadeUp .65s ease .1s both;
+          gap: 10px;
+          justify-content: center;
+          background: #ffffff;
+          animation: fadeUp .6s ease both;
+          overflow: hidden;
         }
 
-        /* Live badge */
-        .live-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #1e0f00;
-          border-radius: 999px;
-          padding: 6px 16px 6px 10px;
+        .hm-live {
+          display: inline-flex; align-items: center; gap: 6px;
+          background: #f0fdf4; border: 1px solid #bbf7d0;
+          border-radius: 999px; padding: 3px 12px 3px 8px;
           width: fit-content;
         }
-        .live-dot {
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          background: #22c55e;
-          box-shadow: 0 0 0 3px rgba(34,197,94,.25);
-          animation: glowRing 2s ease infinite;
+        .hm-live-dot {
+          width: 7px; height: 7px; border-radius: 50%; background: #16a34a;
+          box-shadow: 0 0 0 2px rgba(22,163,74,.22);
+          animation: pulse 2s ease infinite;
         }
-        .live-text {
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: .16em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,.70);
+        .hm-live span {
+          font-size: 10px; font-weight: 600; letter-spacing: .12em;
+          text-transform: uppercase; color: #15803d;
         }
-        .live-text b { color: #f0c060; font-weight: 700; }
 
-        /* Headline */
         .hm-h1 {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(2.3rem, 3.8vw, 3.4rem);
+          font-size: clamp(1.7rem, 2.6vw, 2.6rem);
           font-weight: 700;
-          color: #1e0f00;
-          line-height: 1.13;
-          letter-spacing: -.01em;
+          color: #111827;
+          line-height: 1.12;
+          margin: 0;
         }
-        .hm-h1 .italic-gold {
+        .hm-h1 em {
           font-style: italic;
-          color: #b45309;
+          color: #15803d;
           display: block;
           position: relative;
           width: fit-content;
         }
-        .hm-h1 .italic-gold::after {
+        .hm-h1 em::after {
           content: '';
-          position: absolute;
-          left: 0; bottom: -3px;
+          position: absolute; left: 0; bottom: -4px;
           height: 2.5px; width: 100%;
-          background: linear-gradient(90deg, #d97706, #f0c060 60%, transparent);
-          border-radius: 2px;
-          transform-origin: left;
-          animation: underlineIn .7s ease .6s both;
+          background: linear-gradient(90deg, #16a34a, #4ade80, transparent);
+          border-radius: 2px; transform-origin: left;
+          animation: underline .7s ease .5s both;
         }
 
-        /* Rotating memory ticker */
-        .ticker-wrap {
-          height: 30px;
+        .hm-ticker {
           overflow: hidden;
-          border-left: 3px solid #f0c060;
-          padding-left: 14px;
+          border-left: 3px solid #16a34a;
+          padding: 5px 12px;
+          background: #f0fdf4;
+          border-radius: 0 4px 4px 0;
         }
-        .ticker-line {
+        .hm-ticker-line {
           font-family: 'Caveat', cursive;
-          font-size: 18px;
-          color: #7a4f1e;
-          animation: typeSlide .45s ease both;
-          line-height: 30px;
-        }
-
-        /* Story */
-        .hm-story {
-          font-size: 13.5px;
-          line-height: 1.95;
-          color: #5c3d1a;
-          max-width: 500px;
-          position: relative;
-          padding: 18px 20px;
-          background: rgba(255,253,245,.80);
-          border-radius: 8px;
-          border: 1px solid rgba(200,169,110,.35);
-          box-shadow: 0 2px 16px rgba(100,60,10,.06);
-        }
-        .hm-story::before {
-          content: '"';
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 72px;
-          color: rgba(217,119,6,.15);
-          position: absolute;
-          top: -10px; left: 10px;
-          line-height: 1;
-          pointer-events: none;
-        }
-
-        /* Buttons */
-        .hm-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-
-        .btn-gold {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 13px 28px;
-          border-radius: 7px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13px;
+          font-size: 14px;
+          color: #15803d;
           font-weight: 600;
-          letter-spacing: .04em;
-          text-decoration: none;
-          background: linear-gradient(135deg, #92400e 0%, #b45309 40%, #d97706 80%, #f59e0b 100%);
-          color: white;
-          box-shadow: 0 4px 20px rgba(180,83,9,.42), inset 0 1px 0 rgba(255,255,255,.18);
-          transition: transform .2s, box-shadow .2s;
-          position: relative;
+          white-space: nowrap;
           overflow: hidden;
-          border: 1px solid rgba(255,255,255,.12);
+          text-overflow: ellipsis;
+          animation: tickIn .4s ease both;
+          opacity: 1;
         }
-        .btn-gold::before {
-          content: '';
-          position: absolute;
-          top: 0; left: -100%;
-          width: 55%; height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
-          animation: shimmerBtn 2.8s ease 1s infinite;
-        }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(180,83,9,.52); }
 
-        .btn-parch {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 13px 22px;
-          border-radius: 7px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13px;
-          font-weight: 500;
-          text-decoration: none;
-          color: #92400e;
-          background: rgba(254,243,199,.70);
-          border: 1.5px solid rgba(200,169,110,.55);
-          transition: background .2s, transform .2s;
+        .hm-story {
+          font-size: 12.5px;
+          line-height: 1.65;
+          color: #4b5563;
+          max-width: 480px;
         }
-        .btn-parch:hover { background: #fef3c7; transform: translateY(-2px); }
+        .hm-story strong { color: #14532d; }
 
-        /* Stats */
+        .hm-cta {
+          display: flex; gap: 12px; flex-wrap: wrap;
+        }
+        .btn-hero-primary {
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 10px 22px; border-radius: 8px;
+          background: linear-gradient(135deg, #14532d, #16a34a);
+          color: white; font-size: 13px; font-weight: 600;
+          letter-spacing: .03em; text-decoration: none; border: none; cursor: pointer;
+          box-shadow: 0 4px 16px rgba(22,163,74,.35);
+          transition: all .2s;
+        }
+        .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(22,163,74,.45); }
+        .btn-hero-ghost {
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 10px 18px; border-radius: 8px;
+          background: #f9fafb; color: #374151;
+          font-size: 13px; font-weight: 600;
+          text-decoration: none; border: 1.5px solid #e5e7eb; cursor: pointer;
+          transition: all .2s;
+        }
+        .btn-hero-ghost:hover { background: #f0fdf4; border-color: #16a34a; color: #14532d; }
+
+        /* PHOTO — natural aspect ratio, side by side */
+        .hm-right {
+          position: relative;
+          background: #1a1a1a;
+          overflow: hidden;
+          animation: fadeIn .7s ease .2s both;
+          border-left: 3px solid #14532d;
+        }
+        .hm-right img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center center;
+          display: block;
+          filter: contrast(1.04) brightness(.98);
+          transition: transform .6s ease;
+          background: #1a1a1a;
+        }
+        .hm-right:hover img { transform: scale(1.02); }
+        .hm-right-overlay {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          background: linear-gradient(to top, rgba(0,0,0,.80) 0%, transparent 60%);
+          padding: 40px 28px 18px;
+          display: flex; align-items: flex-end; justify-content: space-between;
+        }
+        .hm-right-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 18px; font-weight: 700; color: white;
+        }
+        .hm-right-sub {
+          font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+          color: rgba(255,255,255,.55); margin-top: 3px;
+        }
+        .hm-yr-badge {
+          background: #14532d; color: #86efac;
+          font-family: 'Libre Baskerville', serif;
+          font-size: 12px; font-weight: 700; letter-spacing: .08em;
+          padding: 5px 14px; border-radius: 4px; flex-shrink: 0;
+        }
+
+        /* ── STATS BAND ── */
         .hm-stats {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 10px;
-          animation: fadeUp .65s ease .25s both;
+          border-top: 1px solid #e5e7eb;
+          border-bottom: 1px solid #e5e7eb;
+          animation: fadeUp .6s ease .2s both;
         }
-        .stat-c {
-          background: white;
-          border: 1px solid rgba(200,169,110,.28);
-          border-radius: 10px;
-          padding: 14px 10px 12px;
+        .stat-item {
+          padding: 28px 20px;
           text-align: center;
-          box-shadow: 0 2px 14px rgba(100,60,10,.07);
-          position: relative;
-          overflow: hidden;
-          transition: transform .2s, box-shadow .2s;
+          border-right: 1px solid #e5e7eb;
+          transition: background .2s;
         }
-        .stat-c:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(100,60,10,.13); }
-        .stat-c::after {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0; height: 3px;
-          background: linear-gradient(90deg, #b45309, #f0c060);
-        }
-        .stat-c .sn {
+        .stat-item:last-child { border-right: none; }
+        .stat-item:hover { background: #f0fdf4; }
+        .stat-icon { font-size: 26px; margin-bottom: 8px; }
+        .stat-num {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 2rem;
-          font-weight: 700;
-          color: #d97706;
-          line-height: 1;
-          animation: countPop .5s ease both;
+          font-size: 2.4rem; font-weight: 700;
+          color: #16a34a; line-height: 1;
         }
-        .stat-c .si { font-size: 18px; margin-bottom: 3px; }
-        .stat-c .sl {
-          font-size: 9.5px;
-          font-weight: 600;
-          letter-spacing: .13em;
-          text-transform: uppercase;
-          color: #a07840;
-          margin-top: 4px;
+        .stat-label {
+          font-size: 12px; font-weight: 600; color: #111827;
+          margin-top: 4px; text-transform: uppercase; letter-spacing: .08em;
+        }
+        .stat-sub {
+          font-size: 11px; color: #9ca3af; margin-top: 3px;
         }
 
-        /* ── RIGHT — Photo ── */
-        .hm-photo {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-          animation: fadeUp .65s ease .2s both;
-        }
-
-        /* Gold ornament frame */
-        .photo-frame {
-          width: 100%;
-          position: relative;
-          padding: 10px;
-          background: linear-gradient(160deg, #fff9ee, #fffcf6, #fff5dd);
-          border-radius: 6px;
-          animation: framePulse 4s ease infinite;
-        }
-        .photo-frame::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 6px;
-          background: linear-gradient(135deg,
-            rgba(240,192,96,.35) 0%,
-            transparent 25%,
-            transparent 75%,
-            rgba(240,192,96,.25) 100%);
-          pointer-events: none;
-        }
-
-        /* Corner L-brackets */
-        .fc { position: absolute; width: 18px; height: 18px; border-color: #d97706; border-style: solid; opacity: .75; }
-        .fc-tl { top: 4px;    left: 4px;   border-width: 2px 0 0 2px; }
-        .fc-tr { top: 4px;    right: 4px;  border-width: 2px 2px 0 0; }
-        .fc-bl { bottom: 4px; left: 4px;   border-width: 0 0 2px 2px; }
-        .fc-br { bottom: 4px; right: 4px;  border-width: 0 2px 2px 0; }
-
-        .photo-window {
-          width: 100%;
-          aspect-ratio: 4/3;
-          overflow: hidden;
-          border-radius: 3px;
-          position: relative;
-          background: #e8d9b5;
-        }
-        .photo-window img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center top;
-          display: block;
-          filter: sepia(12%) contrast(1.06) brightness(.97) saturate(.92);
-          transition: transform .7s ease, filter .7s ease;
-        }
-        .photo-frame:hover .photo-window img {
-          transform: scale(1.04);
-          filter: sepia(4%) contrast(1.08) brightness(1.01) saturate(1.0);
-        }
-        /* vignette inside photo */
-        .photo-window::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse at center, transparent 55%, rgba(30,15,0,.30) 100%);
-          pointer-events: none;
-        }
-
-        /* Caption bar */
-        .photo-caption {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: #1e0f00;
-          padding: 12px 16px;
-          border-radius: 0 0 5px 5px;
-          margin-top: -2px;
-        }
-        .pc-left {}
-        .pc-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 15px;
-          font-weight: 700;
-          color: white;
-          letter-spacing: .02em;
-        }
-        .pc-sub {
-          font-size: 9.5px;
-          font-weight: 500;
-          letter-spacing: .15em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,.38);
-          margin-top: 2px;
-        }
-        .pc-badge {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(240,192,96,.14);
-          border: 1px solid rgba(240,192,96,.30);
-          border-radius: 999px;
-          padding: 5px 14px;
-        }
-        .pc-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: #f0c060;
-          animation: glowRing 2.2s ease infinite;
-        }
-        .pc-txt {
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: .10em;
-          color: #f0c060;
-        }
-
-        /* Sticky note */
-        .sticky-note {
-          position: absolute;
-          top: -22px; right: -18px;
-          width: 88px;
-          background: #fffde7;
-          border: 1px solid #f0de6a;
-          border-radius: 2px;
-          padding: 10px 10px 12px;
-          box-shadow: 2px 4px 12px rgba(0,0,0,.16), inset 0 -2px 0 rgba(0,0,0,.06);
-          font-family: 'Caveat', cursive;
-          font-size: 12.5px;
-          color: #4a3300;
-          line-height: 1.4;
-          text-align: center;
-          z-index: 20;
-          animation: noteWiggle 3.5s ease infinite;
-        }
-        .sticky-note::before {
-          content: '';
-          position: absolute;
-          top: -7px; left: 50%; transform: translateX(-50%);
-          width: 13px; height: 13px;
-          border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #ff7070, #aa0000);
-          box-shadow: 0 2px 6px rgba(0,0,0,.35);
-        }
-        /* fold corner */
-        .sticky-note::after {
-          content: '';
-          position: absolute;
-          bottom: 0; right: 0;
-          width: 16px; height: 16px;
-          background: linear-gradient(225deg, #e8ce50 50%, transparent 50%);
-          border-radius: 0 0 2px 0;
-        }
-
-        /* Ticket stub */
-        .ticket-stub {
-          position: absolute;
-          bottom: 70px; left: -22px;
-          background: linear-gradient(135deg, #7c3000, #a85000);
-          color: white;
-          border-radius: 5px;
-          padding: 10px 12px;
-          font-family: 'Caveat', cursive;
-          font-size: 12.5px;
-          line-height: 1.5;
-          text-align: center;
-          z-index: 20;
-          border-left: 5px dashed rgba(255,255,255,.25);
-          box-shadow: 2px 4px 14px rgba(0,0,0,.25);
-          animation: stubWiggle 4s ease infinite;
-        }
-
-        /* ── BOTTOM MEMORY STRIP ── */
-        .hm-strip {
-          background: linear-gradient(90deg, #1e0f00, #2c1a08, #1e0f00);
-          padding: 11px 32px;
-          display: flex;
-          align-items: center;
+        /* ── ABOUT SECTION ── */
+        .hm-about {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 0;
-          animation: fadeUp .65s ease .35s both;
-          border-top: 1px solid rgba(240,192,96,.15);
+          border-bottom: 1px solid #e5e7eb;
+        }
+        .hm-about-left {
+          padding: 56px 48px;
+          border-right: 1px solid #e5e7eb;
+          animation: fadeUp .6s ease .15s both;
+        }
+        .hm-about-right {
+          padding: 56px 48px;
+          background: #f9fafb;
+          animation: fadeUp .6s ease .25s both;
+        }
+        .section-tag {
+          font-size: 10.5px; font-weight: 700; letter-spacing: .16em;
+          text-transform: uppercase; color: #16a34a;
+          display: flex; align-items: center; gap: 8px;
+          margin-bottom: 16px;
+        }
+        .section-tag::before {
+          content: ''; width: 24px; height: 2px;
+          background: #16a34a; border-radius: 2px;
+        }
+        .section-h2 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 2rem; font-weight: 700;
+          color: #111827; line-height: 1.2;
+          margin: 0 0 20px;
+        }
+        .section-body {
+          font-size: 14.5px; line-height: 1.90; color: #6b7280;
+        }
+        .section-body p { margin: 0 0 14px; }
+        .section-body p:last-child { margin: 0; }
+        .section-body strong { color: #111827; font-weight: 600; }
+
+        /* About list */
+        .about-list { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-direction: column; gap: 12px; }
+        .about-list li {
+          display: flex; align-items: flex-start; gap: 12px;
+          font-size: 13.5px; color: #4b5563; line-height: 1.6;
+        }
+        .about-list li span.icon {
+          width: 32px; height: 32px; border-radius: 8px;
+          background: #f0fdf4; border: 1px solid #bbf7d0;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 16px; flex-shrink: 0;
+        }
+
+        /* ── MEMORIES STRIP ── */
+        .hm-strip {
+          background: #14532d;
+          padding: 18px 48px;
+          display: flex;
+          align-items: center;
+          gap: 20px;
           overflow-x: auto;
         }
         .strip-label {
           font-family: 'Cormorant Garamond', serif;
-          font-style: italic;
-          font-size: 12px;
-          color: rgba(255,255,255,.30);
-          white-space: nowrap;
-          padding-right: 20px;
-          border-right: 1px solid rgba(255,255,255,.08);
-          margin-right: 20px;
-          flex-shrink: 0;
+          font-style: italic; font-size: 13px;
+          color: rgba(255,255,255,.40); white-space: nowrap;
+          border-right: 1px solid rgba(255,255,255,.12);
+          padding-right: 20px; flex-shrink: 0;
         }
-        .strip-chips {
-          display: flex;
-          gap: 7px;
-          align-items: center;
-          flex-wrap: nowrap;
-        }
+        .strip-chips { display: flex; gap: 8px; flex-wrap: nowrap; }
         .s-chip {
-          font-family: 'Caveat', cursive;
-          font-size: 12.5px;
-          color: rgba(255,255,255,.55);
-          background: rgba(255,255,255,.06);
-          border: 1px solid rgba(255,255,255,.09);
-          border-radius: 999px;
-          padding: 4px 14px;
-          white-space: nowrap;
-          transition: color .2s, background .2s;
-          cursor: default;
+          font-size: 12px; color: rgba(255,255,255,.60);
+          background: rgba(255,255,255,.08);
+          border: 1px solid rgba(255,255,255,.12);
+          border-radius: 999px; padding: 5px 14px;
+          white-space: nowrap; cursor: default;
+          transition: all .2s;
         }
-        .s-chip:hover {
-          color: #f0c060;
-          background: rgba(240,192,96,.12);
-          border-color: rgba(240,192,96,.28);
-        }
+        .s-chip:hover { color: #86efac; background: rgba(134,239,172,.12); border-color: rgba(134,239,172,.25); }
 
-        @media (max-width: 720px) {
-          .hm-hero { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px 20px; }
-          .hm-stats { grid-template-columns: repeat(2, 1fr); }
-          .hm-photo { margin-top: 0; }
-          .floater { display: none; }
-          .sticky-note, .ticket-stub { display: none; }
-          .hm-strip { padding: 10px 16px; }
+        /* ── RESPONSIVE ── */
+        @media (max-width: 800px) {
+          .hm-left  { padding: 28px 20px; }
+          .hm-right-overlay { padding: 24px 20px 14px; }
+          .hm-stats { grid-template-columns: repeat(2,1fr); }
+          .hm-about { grid-template-columns: 1fr; }
+          .hm-about-left { padding: 36px 24px; border-right: none; border-bottom: 1px solid #e5e7eb; }
+          .hm-about-right { padding: 36px 24px; }
+          .hm-strip { padding: 14px 24px; }
         }
       `}</style>
 
       <div className="hm">
-        {/* Floating ambient tags */}
-        {floaters.map((f) => (
-          <div
-            key={f.text}
-            className="floater"
-            style={{
-              top: f.top,
-              left: f.left,
-              right: f.right,
-              "--d": f.dur,
-              "--dl": f.delay,
-            }}
-          >
-            {f.text}
-          </div>
-        ))}
 
         {/* ── HERO ── */}
-        <div className={`hm-hero ${visible ? "visible" : ""}`}>
+        <div className="hm-hero">
+
           {/* LEFT */}
           <div className="hm-left">
-            {/* Live badge */}
-            <div className="live-badge">
-              <div className="live-dot" />
-              <span className="live-text">
-                <b>Class of 2000</b> · 10th Grade · Batch Portal · Live
-              </span>
+            <div className="hm-live">
+              <div className="hm-live-dot"/>
+              <span>ZP High School · Class of 2000 · Live</span>
             </div>
 
-            {/* Headline */}
             <h1 className="hm-h1">
-              Twenty-five years later,
-              <br />
-              <span className="italic-gold">we're all back home.</span>
+              Twenty-five years later,<br/>
+              <em>we're all back home.</em>
             </h1>
 
-            {/* Rotating ticker */}
-            <div className="ticker-wrap">
-              <div key={tick} className="ticker-line">
-                {memories[tick]}
-              </div>
+            <div className="hm-ticker">
+              <div key={tick} className="hm-ticker-line">{memories[tick]}</div>
             </div>
 
-            {/* Story */}
-            <div className="hm-story">
-              Those four walls held our biggest secrets, our loudest laughs, and
-              our first real friendships. We shared benches, borrowed pens,
-              swapped tiffins, and made memories that no textbook could ever
-              contain.
-              <br />
-              <br />
-              Twenty-five years on — life has taken us across cities, careers
-              and continents. But here, in this little corner of the internet,
-              <strong style={{ color: "#7a3800" }}>
-                {" "}
-                we are all still seventeen.
-              </strong>
+            <p className="hm-story">
+              Those four walls of <strong>ZP High School, KV Palli</strong> held our biggest
+              secrets, our loudest laughs and our first real friendships. We shared benches,
+              borrowed pens, swapped tiffins and made memories that no textbook could ever contain.
+              <br/><br/>
+              Twenty-five years on — life has taken us across cities, careers and families.
+              But here, in this little corner of the internet,{' '}
+              <strong>we are all still seventeen.</strong>
+            </p>
+
+            <div className="hm-cta">
+              <Link to="/members" className="btn-hero-primary">👥 Meet the Classmates</Link>
+              <Link to="/gallery"  className="btn-hero-ghost">📸 View Gallery</Link>
             </div>
           </div>
 
-          {/* RIGHT — Photo */}
-          <div className="hm-photo">
-            {/* Sticky note */}
-            <div className="sticky-note">
-              Our Class 📸
-              <br />
-              <span style={{ fontSize: "10.5px", opacity: 0.7 }}>
-                Batch '99–'00
-              </span>
-            </div>
-
-            {/* Ticket */}
-            <div className="ticket-stub">
-              🎓 Passing
-              <br />
-              Year 2000
-            </div>
-
-            <div className="photo-frame">
-              <div className="fc fc-tl" />
-              <div className="fc fc-tr" />
-              <div className="fc fc-bl" />
-              <div className="fc fc-br" />
-
-              <div className="photo-window">
-                {!imgLoaded && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "linear-gradient(90deg,#f5e6c8 25%,#fef3c7 50%,#f5e6c8 75%)",
-                      backgroundSize: "200% 100%",
-                      animation: "shimmer 1.4s infinite",
-                    }}
-                  />
-                )}
-                <img
-                  src={groupPhoto}
-                  alt="Class of 2000 Group Photo"
-                  onLoad={() => setImgLoaded(true)}
-                  style={{ display: imgLoaded ? "block" : "none" }}
-                />
+          {/* RIGHT */}
+          <div className="hm-right">
+            {!imgLoaded && (
+              <div style={{
+                position:'absolute', inset:0,
+                background:'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)',
+                backgroundSize:'200% 100%', animation:'shimmer 1.4s infinite',
+              }}/>
+            )}
+            <img src={groupPhoto} alt="ZP High School KV Palli Class of 2000"
+              onLoad={() => setImgLoaded(true)}
+              style={{ opacity: imgLoaded ? 1 : 0, transition:'opacity .4s' }}/>
+            <div className="hm-right-overlay">
+              <div>
+                <div className="hm-right-title">ZP High School, KV Palli — Batch 1999–2000</div>
+                <div className="hm-right-sub">Our class · Together again after 25 years</div>
               </div>
-
-              <div className="photo-caption">
-                <div className="pc-left">
-                  <div className="pc-title">Class of 2000 — Group Photo</div>
-                  <div className="pc-sub">Batch 1999–2000 · Together again</div>
-                </div>
-                <div className="pc-badge">
-                  <div className="pc-dot" />
-                  <span className="pc-txt">25 YRS</span>
-                </div>
-              </div>
+              <div className="hm-yr-badge">✦ Class of 2000 ✦</div>
             </div>
           </div>
         </div>
 
-        {/* ── BOTTOM STRIP ── */}
+        {/* ── STATS BAND ── */}
+        <div className="hm-stats">
+          {highlights.map(h => (
+            <div key={h.label} className="stat-item">
+              <div className="stat-icon">{h.icon}</div>
+              <div className="stat-num">{h.number}</div>
+              <div className="stat-label">{h.label}</div>
+              <div className="stat-sub">{h.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── ABOUT SECTION ── */}
+        <div className="hm-about">
+          <div className="hm-about-left">
+            <div className="section-tag">Our Story</div>
+            <h2 className="section-h2">A school that gave us<br/>more than education</h2>
+            <div className="section-body">
+              <p>
+                ZP High School, KV Palli was not just a place we studied — it was the place
+                where we grew up. From our first day in uniform to the last day we walked
+                those corridors, every moment became a memory we carry for life.
+              </p>
+              <p>
+                Our teachers gave us knowledge, discipline and love in equal measure.
+                Our classmates gave us friendship, mischief and a sense of belonging
+                that no distance can erase.
+              </p>
+              <p>
+                This portal is our way of keeping that bond alive — a place where the
+                <strong> Class of 2000 stays connected, celebrates together and never forgets.</strong>
+              </p>
+            </div>
+            <ul className="about-list">
+              <li><span className="icon">🏫</span><span>Passed out in the year <strong>2000</strong> from ZP High School, KV Palli</span></li>
+              <li><span className="icon">🤝</span><span><strong>4 get-togethers</strong> organised since passing out — growing stronger each time</span></li>
+              <li><span className="icon">🎓</span><span>Felicitated <strong>16 beloved teachers</strong> at our 3rd get-together with love and gratitude</span></li>
+              <li><span className="icon">❤️</span><span>Raised <strong>₹1,50,000</strong> for school infrastructure and our fallen classmates' children</span></li>
+            </ul>
+          </div>
+
+          <div className="hm-about-right">
+            <div className="section-tag">Our Get-Togethers</div>
+            <h2 className="section-h2">Four reunions,<br/>a lifetime of memories</h2>
+            <div className="section-body">
+              {[
+                { num:'01', year:'Oct 2021', title:'First Get-Together', desc:'12 classmates reunited at our school after 21 long years. We shared memories, enjoyed Biryani and promised to meet again — and we did.' },
+                { num:'02', year:'May 2022', title:'Second Get-Together', desc:'25 classmates gathered for a day of games — Musical Chairs, Balloon Balance, Tug of War — followed by great food and Antakshari.' },
+                { num:'03', year:'May 2023',     title:'Teachers\' Get-Together', desc:'Our most emotional day — 40 classmates and 16 teachers together. We felicitated every teacher and shared a wonderful lunch together.' },
+                { num:'04', year:'May 2025', title:'Fourth Get-Together', desc:'24 classmates, unexpected rain, Tug of War and Antakshari. The rain made it even more magical. More get-togethers to come!' },
+              ].map(ev => (
+                <div key={ev.num} style={{
+                  display:'flex', gap:16, padding:'16px 0',
+                  borderBottom:'1px solid #f3f4f6',
+                }}>
+                  <div style={{
+                    width:36, height:36, borderRadius:8, flexShrink:0,
+                    background:'#f0fdf4', border:'1px solid #bbf7d0',
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    fontFamily:"'Cormorant Garamond',serif",
+                    fontSize:13, fontWeight:700, color:'#15803d',
+                  }}>{ev.num}</div>
+                  <div>
+                    <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:3}}>
+                      <span style={{fontWeight:600,fontSize:13.5,color:'#111827'}}>{ev.title}</span>
+                      <span style={{fontSize:10.5,background:'#f0fdf4',color:'#15803d',border:'1px solid #bbf7d0',borderRadius:3,padding:'1px 7px',fontWeight:600}}>{ev.year}</span>
+                    </div>
+                    <p style={{fontSize:13,color:'#6b7280',margin:0,lineHeight:1.65}}>{ev.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── MEMORIES STRIP ── */}
         <div className="hm-strip">
           <span className="strip-label">Our memories</span>
           <div className="strip-chips">
-            {[
-              "📚 Last Bench Gang",
-              "🍱 Tiffin Swaps",
-              "🎭 Annual Day",
-              "🏃 Sports Day",
-              "✏️ Slam Books",
-              "🔬 Science Fair",
-              "🤝 Forever Friends",
-              "📝 Board Exams",
-              "🎒 School Bag",
-              "🔔 School Bell",
-              "💌 Farewell Notes",
-            ].map((tag) => (
-              <span key={tag} className="s-chip">
-                {tag}
-              </span>
+            {moments.map(m => (
+              <span key={m.text} className="s-chip">{m.emoji} {m.text}</span>
             ))}
           </div>
         </div>
+
       </div>
     </>
-  );
+  )
 }
