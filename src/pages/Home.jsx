@@ -327,13 +327,44 @@ export default function Home() {
 
         /* ── RESPONSIVE ── */
         @media (max-width: 800px) {
-          .hm-left  { padding: 28px 20px; }
-          .hm-right-overlay { padding: 24px 20px 14px; }
+          .hm-hero {
+            grid-template-columns: 1fr;
+            height: auto;
+          }
+          .hm-left {
+            padding: 24px 20px 20px;
+            gap: 12px;
+          }
+          .hm-right {
+            height: auto;
+            border-left: none;
+            border-top: 3px solid #14532d;
+          }
+          .hm-right img {
+            position: static;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+          }
+          .hm-right-overlay {
+            position: relative;
+            background: #14532d;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .hm-right-title { font-size: 13px; }
+          .hm-right-sub   { display: none; }
+          .hm-yr-badge    { font-size: 11px; padding: 4px 10px; }
           .hm-stats { grid-template-columns: repeat(2,1fr); }
           .hm-about { grid-template-columns: 1fr; }
-          .hm-about-left { padding: 36px 24px; border-right: none; border-bottom: 1px solid #e5e7eb; }
-          .hm-about-right { padding: 36px 24px; }
-          .hm-strip { padding: 14px 24px; }
+          .hm-about-left { padding: 28px 20px; border-right: none; border-bottom: 1px solid #e5e7eb; }
+          .hm-about-right { padding: 28px 20px; }
+          .hm-strip { padding: 12px 20px; }
+          .hm-h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+          .hm-story { font-size: 12px; line-height: 1.65; }
+          .btn-hero-primary, .btn-hero-ghost { padding: 9px 16px; font-size: 12px; }
         }
       `}</style>
 
@@ -444,7 +475,7 @@ export default function Home() {
               {[
                 { num:'01', year:'Oct 2021', title:'First Get-Together', desc:'12 classmates reunited at our school after 21 long years. We shared memories, enjoyed Biryani and promised to meet again — and we did.' },
                 { num:'02', year:'May 2022', title:'Second Get-Together', desc:'25 classmates gathered for a day of games — Musical Chairs, Balloon Balance, Tug of War — followed by great food and Antakshari.' },
-                { num:'03', year:'May 2023',     title:'Teachers\' Get-Together', desc:'Our most emotional day — 40 classmates and 16 teachers together. We felicitated every teacher and shared a wonderful lunch together.' },
+                { num:'03', year:'2023',     title:'Teachers\' Get-Together', desc:'Our most emotional day — 40 classmates and 16 teachers together. We felicitated every teacher and shared a wonderful lunch together.' },
                 { num:'04', year:'May 2025', title:'Fourth Get-Together', desc:'24 classmates, unexpected rain, Tug of War and Antakshari. The rain made it even more magical. More get-togethers to come!' },
               ].map(ev => (
                 <div key={ev.num} style={{
