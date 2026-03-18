@@ -475,7 +475,7 @@ export default function Home() {
               {[
                 { num:'01', year:'Oct 2021', title:'First Get-Together', desc:'12 classmates reunited at our school after 21 long years. We shared memories, enjoyed Biryani and promised to meet again — and we did.' },
                 { num:'02', year:'May 2022', title:'Second Get-Together', desc:'25 classmates gathered for a day of games — Musical Chairs, Balloon Balance, Tug of War — followed by great food and Antakshari.' },
-                { num:'03', year:'2023',     title:'Teachers\' Get-Together', desc:'Our most emotional day — 40 classmates and 16 teachers together. We felicitated every teacher and shared a wonderful lunch together.' },
+                { num:'03', year:'May 2023',     title:'Teachers\' Get-Together', desc:'Our most emotional day — 40 classmates and 16 teachers together. We felicitated every teacher and shared a wonderful lunch together.' },
                 { num:'04', year:'May 2025', title:'Fourth Get-Together', desc:'24 classmates, unexpected rain, Tug of War and Antakshari. The rain made it even more magical. More get-togethers to come!' },
               ].map(ev => (
                 <div key={ev.num} style={{

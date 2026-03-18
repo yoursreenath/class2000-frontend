@@ -162,10 +162,52 @@ export default function Navbar() {
         .nb-panel-admin { padding: 14px 22px; border-top: 1px solid #f3f4f6; display: flex; flex-direction: column; gap: 8px; }
 
         @media (max-width: 780px) {
-          .nb-links, .nb-right,
-          .nb-top-items .nb-top-item:nth-child(n+3), .nb-top-quote { display: none !important; }
-          .nb-ham { display: flex !important; align-items: center; }
+          .nb-right,
+          .nb-top-items .nb-top-item:nth-child(n+3),
+          .nb-top-quote { display: none !important; }
+          .nb-ham { display: none !important; }
+          .nb-links {
+            display: none !important;
+          }
+          .nb-mobile-nav {
+            display: flex !important;
+          }
         }
+
+        /* Mobile bottom nav bar */
+        .nb-mobile-nav {
+          display: none;
+          overflow-x: auto;
+          background: #ffffff;
+          border-top: 1px solid #e5e7eb;
+          border-bottom: 2px solid #16a34a;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .nb-mobile-nav::-webkit-scrollbar { display: none; }
+        .nb-mobile-nav-inner {
+          display: flex;
+          min-width: max-content;
+          padding: 0 4px;
+        }
+        .nb-mlink {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2px;
+          padding: 8px 14px;
+          text-decoration: none;
+          color: #6b7280;
+          font-size: 10px;
+          font-weight: 500;
+          border-bottom: 3px solid transparent;
+          white-space: nowrap;
+          transition: color 0.15s, border-color 0.15s, background 0.15s;
+          flex-shrink: 0;
+        }
+        .nb-mlink:hover  { color: #15803d; background: #f0fdf4; }
+        .nb-mlink.active { color: #15803d; border-bottom-color: #16a34a; background: #f0fdf4; font-weight: 600; }
+        .nb-mlink .ml-emoji { font-size: 18px; line-height: 1; }
       `}</style>
 
       {/* Top stripe */}
@@ -217,6 +259,19 @@ export default function Navbar() {
 
         <button className="nb-ham" onClick={() => setMobileOpen(true)}><Menu size={22}/></button>
       </nav>
+
+      {/* Mobile nav bar — visible on small screens */}
+      <div className="nb-mobile-nav">
+        <div className="nb-mobile-nav-inner">
+          {navItems.map(({ to, label, emoji }) => (
+            <NavLink key={to} to={to} end={to === '/'}
+              className={({ isActive }) => `nb-mlink${isActive ? ' active' : ''}`}>
+              <span className="ml-emoji">{emoji}</span>
+              <span>{label}</span>
+            </NavLink>
+          ))}
+        </div>
+      </div>
 
       {/* Mobile drawer */}
       <div className={`nb-drawer-overlay${mobileOpen?' open':''}`}>
