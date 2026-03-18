@@ -177,37 +177,33 @@ export default function Navbar() {
         /* Mobile bottom nav bar */
         .nb-mobile-nav {
           display: none;
-          overflow-x: auto;
           background: #ffffff;
           border-top: 1px solid #e5e7eb;
           border-bottom: 2px solid #16a34a;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
         }
         .nb-mobile-nav::-webkit-scrollbar { display: none; }
         .nb-mobile-nav-inner {
           display: flex;
-          min-width: max-content;
-          padding: 0 4px;
+          width: 100%;
         }
         .nb-mlink {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 2px;
-          padding: 8px 14px;
+          gap: 1px;
+          padding: 6px 0;
           text-decoration: none;
           color: #6b7280;
-          font-size: 10px;
+          font-size: 9px;
           font-weight: 500;
-          border-bottom: 3px solid transparent;
+          border-bottom: 2px solid transparent;
           white-space: nowrap;
           transition: color 0.15s, border-color 0.15s, background 0.15s;
-          flex-shrink: 0;
+          flex: 1;
         }
         .nb-mlink:hover  { color: #15803d; background: #f0fdf4; }
         .nb-mlink.active { color: #15803d; border-bottom-color: #16a34a; background: #f0fdf4; font-weight: 600; }
-        .nb-mlink .ml-emoji { font-size: 18px; line-height: 1; }
+        .nb-mlink .ml-emoji { font-size: 16px; line-height: 1; }
       `}</style>
 
       {/* Top stripe */}
@@ -270,6 +266,20 @@ export default function Navbar() {
               <span>{label}</span>
             </NavLink>
           ))}
+          {/* Admin button at end of mobile nav */}
+          {isAdmin ? (
+            <button className="nb-mlink" style={{border:'none',background:'none',cursor:'pointer',color:'#15803d',fontWeight:600}}
+              onClick={logout}>
+              <span className="ml-emoji"><LogOut size={18}/></span>
+              <span>Logout</span>
+            </button>
+          ) : (
+            <button className="nb-mlink" style={{border:'none',background:'none',cursor:'pointer',color:'#15803d',fontWeight:600}}
+              onClick={() => setShowLogin(true)}>
+              <span className="ml-emoji"><LogIn size={18}/></span>
+              <span>Admin</span>
+            </button>
+          )}
         </div>
       </div>
 
